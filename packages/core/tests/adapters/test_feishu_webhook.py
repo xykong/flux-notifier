@@ -20,7 +20,6 @@ from flux_notifier.schema import (
     NotificationPayload,
 )
 
-
 WEBHOOK_URL = "https://open.feishu.cn/open-apis/bot/v2/hook/test-token"
 
 

@@ -2,12 +2,13 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 from flux_notifier.adapters.base import AdapterBase, SendResult
 from flux_notifier.config import AppConfig
+from flux_notifier.response import cleanup_response_file, wait_for_response
 from flux_notifier.schema import DeliveryResult, NotificationPayload, UserResponse
-from flux_notifier.response import wait_for_response, cleanup_response_file
 
 logger = logging.getLogger(__name__)
 
@@ -15,12 +16,14 @@ AdapterFactory = Callable[..., AdapterBase]
 
 
 def _build_adapters(config: AppConfig, targets: list[str] | None) -> list[AdapterBase]:
-    from flux_notifier.adapters.macos import MacOSAdapter
+    from flux_notifier.adapters.email import EmailAdapter
     from flux_notifier.adapters.feishu_webhook import FeishuWebhookAdapter
+    from flux_notifier.adapters.macos import MacOSAdapter
 
     registry: dict[str, AdapterFactory] = {
         "macos": MacOSAdapter,
         "feishu_webhook": FeishuWebhookAdapter,
+        "email": EmailAdapter,
     }
 
     enabled = targets if targets is not None else config.targets.enabled

@@ -12,17 +12,16 @@ import click
 from flux_notifier import __version__
 from flux_notifier.config import (
     CONFIG_FILE,
-    load_config,
     get_config_dir,
+    load_config,
 )
 from flux_notifier.schema import (
-    NotificationPayload,
-    EventType,
     Action,
+    EventType,
     Image,
     Metadata,
+    NotificationPayload,
     Priority,
-    ActionStyle,
 )
 
 LOG_LEVELS = {"debug": logging.DEBUG, "info": logging.INFO, "warning": logging.WARNING, "error": logging.ERROR}
@@ -115,7 +114,7 @@ def send_cmd(
         targets_list = [t.strip() for t in targets_env.split(",") if t.strip()]
 
     from flux_notifier.router import dispatch
-    from flux_notifier.schema import DeliveryResult, UserResponse
+    from flux_notifier.schema import UserResponse
 
     result = asyncio.run(
         dispatch(

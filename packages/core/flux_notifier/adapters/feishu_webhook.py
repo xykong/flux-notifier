@@ -10,7 +10,7 @@ import httpx
 
 from flux_notifier.adapters.base import AdapterBase, SendResult
 from flux_notifier.config import FeishuWebhookConfig
-from flux_notifier.schema import ActionStyle, NotificationPayload, Priority
+from flux_notifier.schema import ActionStyle, NotificationPayload
 
 _TIMEOUT = 10.0
 

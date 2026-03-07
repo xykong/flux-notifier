@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from enum import StrEnum
 from typing import Annotated
 
@@ -68,7 +68,7 @@ class Metadata(BaseModel):
 class NotificationPayload(BaseModel):
     version: str = "1"
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(UTC))
     event_type: EventType = EventType.INFO
     title: Annotated[str, Field(min_length=1, max_length=128)]
     body: str | None = Field(default=None, max_length=4096)
@@ -102,7 +102,7 @@ class NotificationPayload(BaseModel):
 class UserResponse(BaseModel):
     notification_id: str
     action_id: str | None = None
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(UTC))
     source_terminal: str | None = None
     timeout: bool = False
 
@@ -111,4 +111,4 @@ class DeliveryResult(BaseModel):
     notification_id: str
     delivered: list[str] = Field(default_factory=list)
     failed: list[str] = Field(default_factory=list)
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(UTC))

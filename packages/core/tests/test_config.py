@@ -1,7 +1,4 @@
-import tomllib
 from pathlib import Path
-
-import pytest
 
 from flux_notifier.config import AppConfig, load_config
 

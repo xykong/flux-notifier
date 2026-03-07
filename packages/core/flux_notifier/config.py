@@ -6,7 +6,6 @@ from typing import Any
 
 from pydantic import BaseModel, Field
 
-
 CONFIG_DIR = Path.home() / ".flux-notifier"
 CONFIG_FILE = CONFIG_DIR / "config.toml"
 SOCKET_PATH = CONFIG_DIR / "macos.sock"

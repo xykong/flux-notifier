@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import json
 import logging
 import sys
 
 from flux_notifier.adapters.base import AdapterBase, SendResult
-from flux_notifier.config import MacOSConfig, SOCKET_PATH
+from flux_notifier.config import SOCKET_PATH, MacOSConfig
 from flux_notifier.schema import NotificationPayload
 
 logger = logging.getLogger(__name__)
@@ -63,7 +64,7 @@ class MacOSAdapter(AdapterBase):
                 adapter=self.name,
                 message=ack.get("error", "") if not success else "",
             )
-        except (OSError, TimeoutError, json.JSONDecodeError, asyncio.TimeoutError) as exc:
+        except (OSError, TimeoutError, json.JSONDecodeError) as exc:
             return SendResult(
                 success=False,
                 adapter=self.name,
@@ -71,10 +72,8 @@ class MacOSAdapter(AdapterBase):
             )
         finally:
             writer.close()
-            try:
+            with contextlib.suppress(OSError):
                 await writer.wait_closed()
-            except OSError:
-                pass
 
     async def health_check(self) -> bool:
         if sys.platform != "darwin":

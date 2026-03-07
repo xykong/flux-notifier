@@ -5,7 +5,7 @@ import pytest
 from click.testing import CliRunner
 
 from flux_notifier.cli import cli
-from flux_notifier.schema import DeliveryResult, NotificationPayload
+from flux_notifier.schema import DeliveryResult
 
 
 @pytest.fixture
