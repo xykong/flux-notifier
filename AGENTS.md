@@ -188,7 +188,7 @@ class AppConfig(BaseModel):
 
 ## Current Implementation State
 
-### Completed (Phase 1 + Phase 2 partial)
+### Completed (Phase 1 + Phase 2 + Phase 3)
 
 | Component | Status | Tests |
 |---|---|---|
@@ -198,24 +198,22 @@ class AppConfig(BaseModel):
 | `adapters/email.py` | Done | 23 tests |
 | `adapters/feishu_app.py` | Done | 10 tests |
 | `adapters/wechat_work.py` | Done | 13 tests |
+| `adapters/push.py` | Done | 10 tests |
+| `adapters/windows.py` | Done | 5 tests |
+| `adapters/linux.py` | Done | 8 tests |
 | `packages/macos-app` Swift App | Done | builds clean |
-| **Total** | | **102/102 pass** |
+| `packages/relay-server` FastAPI | Done | 7 tests |
+| `packages/opencode-skill/skill.md` | Done | — |
+| `.github/workflows/ci.yml` | Done | — |
+| `.github/workflows/release.yml` | Done | — |
+| **Core total** | | **126/126 pass** |
+| **Relay total** | | **7/7 pass** |
 
-### Phase 2 — Remaining
+### Remaining (Phase 3 — release engineering)
 
-| Adapter | Priority | Notes |
-|---|---|---|
-| `push.py` | Low | Needs `relay-server` first |
-| `windows.py` | Low | `winrt` / `win10toast` |
-| `linux.py` | Low | `notify-send` subprocess |
-
-### Phase 3 — Not Started
-
-- `packages/relay-server/` — FastAPI APNs/FCM relay
-- `packages/opencode-skill/skill.md` — OpenCode skill definition
-- GitHub Actions CI/CD
-- Homebrew Cask formula
-- PyPI publish
+- Homebrew Cask formula — needs Apple Developer account for signing
+- Official documentation site
+- watchOS companion app
 
 ---
 

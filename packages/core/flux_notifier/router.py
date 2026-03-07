@@ -19,8 +19,11 @@ def _build_adapters(config: AppConfig, targets: list[str] | None) -> list[Adapte
     from flux_notifier.adapters.email import EmailAdapter
     from flux_notifier.adapters.feishu_app import FeishuAppAdapter
     from flux_notifier.adapters.feishu_webhook import FeishuWebhookAdapter
+    from flux_notifier.adapters.linux import LinuxAdapter
     from flux_notifier.adapters.macos import MacOSAdapter
+    from flux_notifier.adapters.push import PushAdapter
     from flux_notifier.adapters.wechat_work import WechatWorkAdapter
+    from flux_notifier.adapters.windows import WindowsAdapter
 
     registry: dict[str, AdapterFactory] = {
         "macos": MacOSAdapter,
@@ -28,6 +31,9 @@ def _build_adapters(config: AppConfig, targets: list[str] | None) -> list[Adapte
         "feishu_app": FeishuAppAdapter,
         "email": EmailAdapter,
         "wechat_work": WechatWorkAdapter,
+        "push": PushAdapter,
+        "windows": WindowsAdapter,
+        "linux": LinuxAdapter,
     }
 
     enabled = targets if targets is not None else config.targets.enabled

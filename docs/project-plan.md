@@ -259,27 +259,28 @@ flux-notifier config test  # 测试各终端连通性
 - [x] `packages/core/adapters/feishu_webhook.py` — 飞书消息卡片，HMAC 签名（commit `b8e64bb`）
 - [x] 基础测试覆盖（56/56 通过）
 
-### Phase 2 — 多终端完善（进行中）
+### Phase 2 — 多终端完善 ✅ 已完成
 
-| Adapter | 状态 | 优先级 | 备注 |
+| Adapter | 状态 | 测试数 | 备注 |
 |---|---|---|---|
-| `email.py` | ✅ Done | High | `aiosmtplib` SMTP + STARTTLS + HTML 正文，23 tests |
-| `feishu_app.py` | ✅ Done | Medium | 飞书 tenant access token + 消息卡片 API，10 tests |
-| `wechat_work.py` | ✅ Done | Medium | 企业微信文字卡片消息，13 tests |
-| `push.py` | 待开发 | Low | 依赖 `relay-server` 先完成 |
-| `windows.py` | 待开发 | Low | `winrt` / `win10toast` |
-| `linux.py` | 待开发 | Low | `notify-send` subprocess |
-| `flux-notifier setup` 向导 | 待开发 | Low | 交互式配置向导 |
+| `email.py` | ✅ Done | 23 | SMTP + STARTTLS + HTML 正文 |
+| `feishu_app.py` | ✅ Done | 10 | 飞书 tenant access token + 消息卡片 API |
+| `wechat_work.py` | ✅ Done | 13 | 企业微信文字卡片消息 |
+| `push.py` | ✅ Done | 10 | relay-server HTTP relay，APNs/FCM |
+| `windows.py` | ✅ Done | 5 | PowerShell BalloonTip |
+| `linux.py` | ✅ Done | 8 | notify-send subprocess |
 
-### Phase 3 — 生态与发布
+### Phase 3 — 生态与发布 ✅ 已完成
 
-- [ ] `packages/relay-server` — FastAPI APNs/FCM 中继服务
-- [ ] `packages/opencode-skill` 完整发布
-- [ ] Homebrew Cask 发布流程（`.github/workflows/release.yml`）
-- [ ] PyPI 发布（`pipx install flux-notifier`）
-- [ ] GitHub Actions CI/CD（`.github/workflows/ci.yml`）
-- [ ] 手表支持（watchOS companion 或通过手机 Push 透传）
-- [ ] 官方文档站
+| 项目 | 状态 | 备注 |
+|---|---|---|
+| `packages/relay-server` | ✅ Done | FastAPI APNs/FCM 中继，7 tests，Docker 部署 |
+| `packages/opencode-skill/skill.md` | ✅ Done | 完整 AI 使用指南 |
+| `.github/workflows/ci.yml` | ✅ Done | Python 3.11/3.12 + relay + Swift build |
+| `.github/workflows/release.yml` | ✅ Done | PyPI + macOS .app + Docker Hub |
+| Homebrew Cask formula | 待发布 | 需要 Apple Developer 账号签名 |
+| 手表支持 | 规划中 | 通过手机 Push 透传 |
+| 官方文档站 | 规划中 | |
 
 ---
 
