@@ -248,30 +248,36 @@ flux-notifier config test  # 测试各终端连通性
 
 ## 开发路线图
 
-### Phase 1 — MVP（核心可用）
+### Phase 1 — MVP（核心可用）✅ 已完成
 
 目标：从 CLI 发送通知，能在 macOS 和飞书上显示，支持用户响应回传。
 
-- [ ] `packages/core` — CLI 骨架，Pydantic Schema，配置读取
-- [ ] `packages/core/adapters/macos.py` — Unix Socket 发送
-- [ ] `packages/macos-app` — MenuBar App，UnixSocket 接收，系统通知 + 自定义悬浮窗
-- [ ] 响应回传机制（临时文件 + stdout）
-- [ ] `packages/core/adapters/feishu_webhook.py` — 飞书消息卡片
-- [ ] 基础测试覆盖
+- [x] `packages/core` — CLI 骨架，Pydantic Schema，配置读取（commit `2484948`）
+- [x] `packages/core/adapters/macos.py` — Unix Socket 发送
+- [x] `packages/macos-app` — MenuBar App，UnixSocket 接收，系统通知 + 自定义悬浮窗（commit `0e615b2`）
+- [x] 响应回传机制（临时文件 + stdout）
+- [x] `packages/core/adapters/feishu_webhook.py` — 飞书消息卡片，HMAC 签名（commit `b8e64bb`）
+- [x] 基础测试覆盖（56/56 通过）
 
-### Phase 2 — 多终端完善
+### Phase 2 — 多终端完善（进行中）
 
-- [ ] `feishu_app`、`email`、`wechat_work` Adapter
-- [ ] `packages/relay-server` + `push` Adapter
-- [ ] Windows Toast Adapter
-- [ ] Linux notify-send Adapter
-- [ ] `flux-notifier setup` 交互式配置向导
+| Adapter | 状态 | 优先级 | 备注 |
+|---|---|---|---|
+| `email.py` | 待开发 | High | `aiosmtplib` 已是依赖；SMTP + STARTTLS + HTML 正文 |
+| `feishu_app.py` | 待开发 | Medium | 飞书开放平台 tenant access token + 消息 API |
+| `wechat_work.py` | 待开发 | Medium | 企业微信应用消息 API |
+| `push.py` | 待开发 | Low | 依赖 `relay-server` 先完成 |
+| `windows.py` | 待开发 | Low | `winrt` / `win10toast` |
+| `linux.py` | 待开发 | Low | `notify-send` subprocess |
+| `flux-notifier setup` 向导 | 待开发 | Low | 交互式配置向导 |
 
 ### Phase 3 — 生态与发布
 
+- [ ] `packages/relay-server` — FastAPI APNs/FCM 中继服务
 - [ ] `packages/opencode-skill` 完整发布
 - [ ] Homebrew Cask 发布流程（`.github/workflows/release.yml`）
 - [ ] PyPI 发布（`pipx install flux-notifier`）
+- [ ] GitHub Actions CI/CD（`.github/workflows/ci.yml`）
 - [ ] 手表支持（watchOS companion 或通过手机 Push 透传）
 - [ ] 官方文档站
 
