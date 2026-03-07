@@ -16,9 +16,11 @@ AdapterFactory = Callable[..., AdapterBase]
 
 def _build_adapters(config: AppConfig, targets: list[str] | None) -> list[AdapterBase]:
     from flux_notifier.adapters.macos import MacOSAdapter
+    from flux_notifier.adapters.feishu_webhook import FeishuWebhookAdapter
 
     registry: dict[str, AdapterFactory] = {
         "macos": MacOSAdapter,
+        "feishu_webhook": FeishuWebhookAdapter,
     }
 
     enabled = targets if targets is not None else config.targets.enabled
