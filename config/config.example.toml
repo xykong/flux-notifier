@@ -1,0 +1,88 @@
+# Flux Notifier 配置示例
+# 复制此文件到 ~/.flux-notifier/config.toml 并填写你的配置
+
+# 启用的通知终端列表（可同时启用多个）
+[targets]
+enabled = ["macos"]
+# 可选值: "macos", "feishu_webhook", "feishu_app", "email", "wechat_mp", "wechat_work", "push", "windows", "linux"
+
+# ─────────────────────────────────────────────
+# macOS 原生通知（无需额外配置）
+# ─────────────────────────────────────────────
+[macos]
+# 自定义悬浮窗位置: "top-right" | "top-left" | "bottom-right" | "bottom-left"
+window_position = "top-right"
+# 悬浮窗自动关闭时间（秒），0 表示不自动关闭
+auto_dismiss = 30
+
+# ─────────────────────────────────────────────
+# 飞书自定义机器人 Webhook
+# ─────────────────────────────────────────────
+[feishu_webhook]
+webhook_url = "https://open.feishu.cn/open-apis/bot/v2/hook/YOUR_WEBHOOK_TOKEN"
+# 可选：签名校验密钥
+# secret = "YOUR_SECRET"
+
+# ─────────────────────────────────────────────
+# 飞书开放平台应用（企业应用消息）
+# ─────────────────────────────────────────────
+[feishu_app]
+app_id = "cli_YOUR_APP_ID"
+app_secret = "YOUR_APP_SECRET"
+# 接收消息的用户 open_id 或 user_id
+receiver_id = "ou_YOUR_USER_ID"
+receiver_id_type = "open_id"  # "open_id" | "user_id" | "email"
+
+# ─────────────────────────────────────────────
+# 邮件通知
+# ─────────────────────────────────────────────
+[email]
+smtp_host = "smtp.gmail.com"
+smtp_port = 587
+username = "your@gmail.com"
+password = "YOUR_APP_PASSWORD"
+from = "Flux Notifier <your@gmail.com>"
+to = ["me@example.com"]
+use_tls = true
+
+# ─────────────────────────────────────────────
+# 微信公众号模板消息
+# ─────────────────────────────────────────────
+[wechat_mp]
+app_id = "YOUR_MP_APPID"
+app_secret = "YOUR_MP_SECRET"
+template_id = "YOUR_TEMPLATE_ID"
+open_id = "YOUR_USER_OPENID"
+
+# ─────────────────────────────────────────────
+# 企业微信应用消息
+# ─────────────────────────────────────────────
+[wechat_work]
+corp_id = "YOUR_CORP_ID"
+agent_id = 1000001
+secret = "YOUR_AGENT_SECRET"
+# 接收用户的账号（@all 表示全员）
+to_user = "YOUR_USERID"
+
+# ─────────────────────────────────────────────
+# 手机 Push 通知（通过中继服务）
+# ─────────────────────────────────────────────
+[push]
+# 使用官方公共中继服务，或填写自托管地址
+relay_url = "https://push.flux-notifier.dev"
+api_key = "YOUR_API_KEY"
+# 设备 token（由 flux-notifier 手机 App 生成）
+device_token = "YOUR_DEVICE_TOKEN"
+
+# ─────────────────────────────────────────────
+# Windows 通知（Windows 平台自动使用，无需配置）
+# ─────────────────────────────────────────────
+[windows]
+app_id = "FluxNotifier"
+
+# ─────────────────────────────────────────────
+# Linux 通知（Linux 平台自动使用，无需配置）
+# ─────────────────────────────────────────────
+[linux]
+# 使用 notify-send 命令（需要安装 libnotify）
+icon = ""  # 可选：自定义图标路径
