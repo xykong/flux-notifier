@@ -17,13 +17,17 @@ AdapterFactory = Callable[..., AdapterBase]
 
 def _build_adapters(config: AppConfig, targets: list[str] | None) -> list[AdapterBase]:
     from flux_notifier.adapters.email import EmailAdapter
+    from flux_notifier.adapters.feishu_app import FeishuAppAdapter
     from flux_notifier.adapters.feishu_webhook import FeishuWebhookAdapter
     from flux_notifier.adapters.macos import MacOSAdapter
+    from flux_notifier.adapters.wechat_work import WechatWorkAdapter
 
     registry: dict[str, AdapterFactory] = {
         "macos": MacOSAdapter,
         "feishu_webhook": FeishuWebhookAdapter,
+        "feishu_app": FeishuAppAdapter,
         "email": EmailAdapter,
+        "wechat_work": WechatWorkAdapter,
     }
 
     enabled = targets if targets is not None else config.targets.enabled

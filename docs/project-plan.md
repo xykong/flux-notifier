@@ -263,9 +263,9 @@ flux-notifier config test  # 测试各终端连通性
 
 | Adapter | 状态 | 优先级 | 备注 |
 |---|---|---|---|
-| `email.py` | 待开发 | High | `aiosmtplib` 已是依赖；SMTP + STARTTLS + HTML 正文 |
-| `feishu_app.py` | 待开发 | Medium | 飞书开放平台 tenant access token + 消息 API |
-| `wechat_work.py` | 待开发 | Medium | 企业微信应用消息 API |
+| `email.py` | ✅ Done | High | `aiosmtplib` SMTP + STARTTLS + HTML 正文，23 tests |
+| `feishu_app.py` | ✅ Done | Medium | 飞书 tenant access token + 消息卡片 API，10 tests |
+| `wechat_work.py` | ✅ Done | Medium | 企业微信文字卡片消息，13 tests |
 | `push.py` | 待开发 | Low | 依赖 `relay-server` 先完成 |
 | `windows.py` | 待开发 | Low | `winrt` / `win10toast` |
 | `linux.py` | 待开发 | Low | `notify-send` subprocess |

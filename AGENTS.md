@@ -188,22 +188,23 @@ class AppConfig(BaseModel):
 
 ## Current Implementation State
 
-### Completed (as of commit b8e64bb)
+### Completed (Phase 1 + Phase 2 partial)
 
 | Component | Status | Tests |
 |---|---|---|
-| `packages/core` CLI skeleton | Done | 56/56 pass |
+| `packages/core` CLI skeleton | Done | — |
 | `adapters/macos.py` | Done | 4 tests |
 | `adapters/feishu_webhook.py` | Done | 26 tests |
+| `adapters/email.py` | Done | 23 tests |
+| `adapters/feishu_app.py` | Done | 10 tests |
+| `adapters/wechat_work.py` | Done | 13 tests |
 | `packages/macos-app` Swift App | Done | builds clean |
+| **Total** | | **102/102 pass** |
 
-### Phase 2 — In Progress
+### Phase 2 — Remaining
 
 | Adapter | Priority | Notes |
 |---|---|---|
-| `email.py` | High | `aiosmtplib` already a dep; SMTP + STARTTLS + HTML body |
-| `feishu_app.py` | Medium | 飞书开放平台 tenant access token + message API |
-| `wechat_work.py` | Medium | 企业微信应用消息 API |
 | `push.py` | Low | Needs `relay-server` first |
 | `windows.py` | Low | `winrt` / `win10toast` |
 | `linux.py` | Low | `notify-send` subprocess |
