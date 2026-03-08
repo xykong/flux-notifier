@@ -16,6 +16,10 @@ class MacOSConfig(BaseModel):
     window_position: str = "top-right"
     auto_dismiss: int = 30
 
+    @property
+    def valid_positions(self) -> list[str]:
+        return ["top-right", "top-left", "bottom-right", "bottom-left", "center"]
+
 
 class FeishuWebhookConfig(BaseModel):
     webhook_url: str

@@ -10,7 +10,7 @@ import httpx
 
 from flux_notifier.adapters.base import AdapterBase, SendResult
 from flux_notifier.config import FeishuWebhookConfig
-from flux_notifier.schema import ActionStyle, NotificationPayload
+from flux_notifier.schema import NotificationPayload
 
 _TIMEOUT = 10.0
 
@@ -36,7 +36,7 @@ def _build_card(payload: NotificationPayload) -> dict[str, Any]:
     if payload.body:
         elements.append({
             "tag": "markdown",
-            "content": payload.body,
+            "content": payload.body.replace("\\n", "\n"),
         })
 
     if payload.image:
@@ -48,24 +48,10 @@ def _build_card(payload: NotificationPayload) -> dict[str, Any]:
         })
 
     if payload.actions:
-        buttons: list[dict[str, Any]] = []
-        for action in payload.actions:
-            btn: dict[str, Any] = {
-                "tag": "button",
-                "text": {"tag": "plain_text", "content": action.label},
-                "type": {
-                    ActionStyle.PRIMARY: "primary",
-                    ActionStyle.DESTRUCTIVE: "danger",
-                    ActionStyle.DEFAULT: "default",
-                }.get(action.style, "default"),
-            }
-            if action.jump_to:
-                btn["url"] = action.jump_to.target
-            buttons.append(btn)
-
+        labels = " / ".join(f"**{a.label}**" for a in payload.actions)
         elements.append({
-            "tag": "action",
-            "actions": buttons,
+            "tag": "markdown",
+            "content": f"💡 请在其他终端响应：{labels}",
         })
 
     return {

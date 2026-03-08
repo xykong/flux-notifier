@@ -10,7 +10,12 @@ enabled = ["macos"]
 # macOS 原生通知（无需额外配置）
 # ─────────────────────────────────────────────
 [macos]
-# 自定义悬浮窗位置: "top-right" | "top-left" | "bottom-right" | "bottom-left"
+# 悬浮窗显示位置
+#   "top-right"    右上角（默认）
+#   "top-left"     左上角
+#   "bottom-right" 右下角
+#   "bottom-left"  左下角
+#   "center"       屏幕中央
 window_position = "top-right"
 # 悬浮窗自动关闭时间（秒），0 表示不自动关闭
 auto_dismiss = 30

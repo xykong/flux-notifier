@@ -60,6 +60,14 @@ def test_build_card_no_body_no_markdown_element():
     assert not any(e["tag"] == "markdown" for e in elements)
 
 
+def test_build_card_body_escapes_literal_newlines():
+    payload = NotificationPayload(title="T", body="line1\\nline2")
+    elements = _build_card(payload)["card"]["elements"]
+    md = next(e for e in elements if e["tag"] == "markdown" and "line1" in e["content"])
+    assert "\n" in md["content"]
+    assert "\\n" not in md["content"]
+
+
 def test_build_card_image_element():
     payload = NotificationPayload(
         title="T",
@@ -77,7 +85,7 @@ def test_build_card_no_image_when_not_set():
     assert not any(e["tag"] == "img" for e in elements)
 
 
-def test_build_card_actions_buttons():
+def test_build_card_actions_renders_hint_not_buttons():
     payload = NotificationPayload(
         title="T",
         actions=[
@@ -87,16 +95,15 @@ def test_build_card_actions_buttons():
         ],
     )
     elements = _build_card(payload)["card"]["elements"]
-    action_el = next(e for e in elements if e["tag"] == "action")
-    btns = action_el["actions"]
 
-    assert btns[0]["text"]["content"] == "Confirm"
-    assert btns[0]["type"] == "primary"
-    assert btns[1]["type"] == "danger"
-    assert btns[2]["type"] == "default"
+    assert not any(e["tag"] == "action" for e in elements)
+    hint = next(e for e in elements if e["tag"] == "markdown" and "💡" in e["content"])
+    assert "Confirm" in hint["content"]
+    assert "Delete" in hint["content"]
+    assert "Cancel" in hint["content"]
 
 
-def test_build_card_action_with_jump_to():
+def test_build_card_action_with_jump_to_renders_hint():
     payload = NotificationPayload(
         title="T",
         actions=[
@@ -108,18 +115,20 @@ def test_build_card_action_with_jump_to():
         ],
     )
     elements = _build_card(payload)["card"]["elements"]
-    action_el = next(e for e in elements if e["tag"] == "action")
-    assert action_el["actions"][0]["url"] == "https://example.com"
+    assert not any(e["tag"] == "action" for e in elements)
+    hint = next(e for e in elements if e["tag"] == "markdown" and "💡" in e["content"])
+    assert "Open" in hint["content"]
 
 
-def test_build_card_action_without_jump_to_has_no_url():
+def test_build_card_action_without_jump_to_renders_hint():
     payload = NotificationPayload(
         title="T",
-        actions=[Action(id="x", label="X")],
+        actions=[Action(id="x", label="MyAction")],
     )
     elements = _build_card(payload)["card"]["elements"]
-    action_el = next(e for e in elements if e["tag"] == "action")
-    assert "url" not in action_el["actions"][0]
+    assert not any(e["tag"] == "action" for e in elements)
+    hint = next(e for e in elements if e["tag"] == "markdown" and "💡" in e["content"])
+    assert "MyAction" in hint["content"]
 
 
 @pytest.mark.parametrize(

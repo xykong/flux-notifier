@@ -34,14 +34,15 @@ final class NotificationWindowManager {
         panel.isOpaque = false
         panel.backgroundColor = .clear
         panel.hasShadow = false
-        panel.level = .floating
+        panel.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.popUpMenuWindow)))
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         panel.isMovableByWindowBackground = true
 
         let windowId = payload.id
         let manager = self
+        let ttl = payload.metadata?.ttl.map(Double.init) ?? 30
 
-        let rootView = NotifyWindowView(payload: payload) { actionId in
+        let rootView = NotifyWindowView(payload: payload, ttl: ttl) { actionId in
             Task { @MainActor in
                 ResponseHandler.respond(to: payload, actionId: actionId)
                 manager.dismiss(id: windowId)
@@ -49,18 +50,22 @@ final class NotificationWindowManager {
         }
         .ignoresSafeArea()
 
+        let sizeHint = CGSize(width: 380, height: 800)
         let hostingView = NSHostingView(rootView: rootView)
-        hostingView.translatesAutoresizingMaskIntoConstraints = false
+        hostingView.frame = CGRect(origin: .zero, size: sizeHint)
         panel.contentView = hostingView
 
-        let size = CGSize(width: 360, height: hostingView.fittingSize.height)
+        hostingView.layout()
+        let fittingHeight = max(hostingView.fittingSize.height, 80)
+        let size = CGSize(width: 380, height: fittingHeight)
         panel.setContentSize(size)
+        hostingView.frame = CGRect(origin: .zero, size: size)
 
         positionPanel(panel)
         panel.orderFront(nil)
+        NSApp.activate(ignoringOtherApps: false)
         windows[windowId] = panel
 
-        let ttl = payload.metadata?.ttl.map(Double.init) ?? 30
         if ttl > 0 {
             Task { @MainActor in
                 try? await Task.sleep(nanoseconds: UInt64(ttl * 1_000_000_000))
@@ -73,13 +78,33 @@ final class NotificationWindowManager {
     }
 
     private func positionPanel(_ panel: NSPanel) {
-        guard let screen = NSScreen.main else { return }
+        let screen = NSScreen.main ?? NSScreen.screens.first
         let margin: CGFloat = 16
-        let safeArea = screen.visibleFrame
+        let area = screen?.visibleFrame ?? CGRect(x: 0, y: 0, width: 1440, height: 900)
         let size = panel.frame.size
+        let config = AppConfig.load()
 
-        let x = safeArea.maxX - size.width - margin
-        let y = safeArea.maxY - size.height - margin
+        let x: CGFloat
+        let y: CGFloat
+
+        switch config.windowPosition {
+        case .topRight:
+            x = area.maxX - size.width - margin
+            y = area.maxY - size.height - margin
+        case .topLeft:
+            x = area.minX + margin
+            y = area.maxY - size.height - margin
+        case .bottomRight:
+            x = area.maxX - size.width - margin
+            y = area.minY + margin
+        case .bottomLeft:
+            x = area.minX + margin
+            y = area.minY + margin
+        case .center:
+            x = area.midX - size.width / 2
+            y = area.midY - size.height / 2
+        }
+
         panel.setFrameOrigin(NSPoint(x: x, y: y))
     }
 
