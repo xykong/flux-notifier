@@ -181,7 +181,7 @@ docker push flux-notifier/relay-server:latest
 - `packages/core/` — 所有 Python 代码：CLI、路由引擎、所有 Adapter
 - `packages/macos-app/` — 纯 Swift：只负责接收消息和 UI 展示
 - `packages/relay-server/` — 独立 FastAPI 服务：仅处理手机 Push 中继
-- `packages/opencode-skill/` — 纯文档，无代码逻辑
+- `packages/ai-skill/` — 纯文档，无代码逻辑
 - `docs/` — 面向用户的文档
 - `config/` — 配置模板
 - `scripts/` — 安装脚本
