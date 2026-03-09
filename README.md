@@ -104,7 +104,7 @@ echo $result  # {"action_id":"a","timestamp":"..."}
 
 ### 在 OpenCode 中使用
 
-在 OpenCode 的 skill 配置中添加 `ai-skill/skill.md`，AI 将自动在需要时调用 `notify send`。
+在 OpenCode 的 skill 配置中添加 `flux-notifier-skill/skill.md`，AI 将自动在需要时调用 `notify send`。
 
 ## 消息格式
 
@@ -143,7 +143,7 @@ flux-notifier/
 │   ├── core/              # Python CLI + 路由引擎 + 所有 Adapter
 │   ├── macos-app/         # Swift + SwiftUI macOS 原生 App
 │   ├── relay-server/      # FastAPI 手机 Push 中继服务
-│   └── ai-skill/    # OpenCode Skill 集成
+│   └── flux-notifier-skill/    # OpenCode Skill 集成
 ├── config/
 │   └── config.example.toml
 └── docs/                  # 完整设计文档

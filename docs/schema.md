@@ -203,4 +203,4 @@ Flux Notifier 使用统一的 JSON 消息格式，所有终端 Adapter 基于此
 
 ## 示例文件
 
-完整示例见 [`packages/ai-skill/examples/`](../packages/ai-skill/examples/)。
+完整示例见 [`packages/flux-notifier-skill/examples/`](../packages/flux-notifier-skill/examples/)。

@@ -35,7 +35,7 @@ flux-notifier/
 │   ├── core/                 ← Python CLI + router + all adapters
 │   ├── macos-app/            ← Swift/SwiftUI macOS Menu Bar App
 │   ├── relay-server/         ← FastAPI mobile push relay (Phase 3)
-│   └── ai-skill/       ← OpenCode skill definition (Phase 3)
+│   └── flux-notifier-skill/ ← OpenCode skill definition (Phase 3)
 └── scripts/
 ```
 
@@ -203,7 +203,7 @@ class AppConfig(BaseModel):
 | `adapters/linux.py` | Done | 8 tests |
 | `packages/macos-app` Swift App | Done | builds clean |
 | `packages/relay-server` FastAPI | Done | 7 tests |
-| `packages/ai-skill/skill.md` | Done | — |
+| `packages/flux-notifier-skill/skill.md` | Done | — |
 | `.github/workflows/ci.yml` | Done | — |
 | `.github/workflows/release.yml` | Done | — |
 | **Core total** | | **126/126 pass** |
@@ -275,7 +275,7 @@ Python adapter reads the 4-byte length prefix from the ACK the same way.
 
 - Commit style: `type(scope): description` (Conventional Commits)
 - Types: `feat`, `fix`, `chore`, `docs`, `test`, `refactor`
-- Scope: `core`, `macos-app`, `relay-server`, `ai-skill`, `docs`, `ci`
+- Scope: `core`, `macos-app`, `relay-server`, `flux-notifier-skill`, `docs`, `ci`
 - Never commit secrets, tokens, or real config files
 - Never commit with `--no-verify`
 - One logical change per commit

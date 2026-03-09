@@ -115,7 +115,7 @@ flux-notifier/
 │   │   ├── docker-compose.yml
 │   │   └── pyproject.toml
 │   │
-│   └── ai-skill/                  # OpenCode Skill 集成
+│   └── flux-notifier-skill/       # OpenCode Skill 集成
 │       ├── skill.md
 │       ├── schema.json
 │       └── examples/
@@ -275,7 +275,7 @@ flux-notifier config test  # 测试各终端连通性
 | 项目 | 状态 | 备注 |
 |---|---|---|
 | `packages/relay-server` | ✅ Done | FastAPI APNs/FCM 中继，7 tests，Docker 部署 |
-| `packages/ai-skill/skill.md` | ✅ Done | 完整 AI 使用指南 |
+| `packages/flux-notifier-skill/skill.md` | ✅ Done | 完整 AI 使用指南 |
 | `.github/workflows/ci.yml` | ✅ Done | Python 3.11/3.12 + relay + Swift build |
 | `.github/workflows/release.yml` | ✅ Done | PyPI + macOS .app + Docker Hub |
 | Homebrew Cask formula | 待发布 | 需要 Apple Developer 账号签名 |
