@@ -33,8 +33,10 @@ jobs:
           packages-dir: packages/core/dist/
 
   macos-release:
-    name: Build macOS App
+    name: Build and release macOS App
     runs-on: macos-14
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -47,11 +49,17 @@ jobs:
         working-directory: packages/macos-app
         run: bash build.sh
 
-      - name: Upload app artifact
-        uses: actions/upload-artifact@v4
+      - name: Create zip for Homebrew Cask
+        working-directory: packages/macos-app/build
+        run: |
+          zip -r --symlinks FluxNotifier.zip FluxNotifier.app
+          echo "MACOS_SHA256=$(shasum -a 256 FluxNotifier.zip | awk '{print $1}')" >> "$GITHUB_ENV"
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: FluxNotifier.app
-          path: packages/macos-app/FluxNotifier.app/
+          files: packages/macos-app/build/FluxNotifier.zip
+          generate_release_notes: true
 
   relay-docker:
     name: Push relay-server Docker image

@@ -23,16 +23,14 @@ description: >
 
 ## 调用方式
 
-使用 `uv run` 调用，无需提前安装：
+安装后直接调用（推荐）：
 
 ```bash
-uv run --project /path/to/flux-notifier/packages/core notify send [选项]
-```
+# 安装
+uv tool install flux-notifier   # 或: pipx install flux-notifier / pip install flux-notifier
 
-若已通过 `uv tool install` 全局安装：
-
-```bash
-uv tool run notify send [选项]
+# 调用
+notify send [选项]
 ```
 
 ### 常用选项
@@ -54,7 +52,7 @@ uv tool run notify send [选项]
 ### 1. 简单完成通知（非阻塞）
 
 ```bash
-uv run --project ~/flux-notifier/packages/core notify send \
+notify send \
   --title "代码审查完成" \
   --body "在 **auth.py** 发现 3 个问题，已生成修复方案。" \
   --no-wait
@@ -79,8 +77,7 @@ payload = {
 }
 
 result = subprocess.run(
-    ["uv", "run", "--project", "/path/to/packages/core",
-     "notify", "send", "--json", json.dumps(payload), "--timeout", "300"],
+    ["notify", "send", "--json", json.dumps(payload), "--timeout", "300"],
     capture_output=True, text=True
 )
 response = json.loads(result.stdout)
@@ -106,8 +103,7 @@ payload = {
 }
 
 result = subprocess.run(
-    ["uv", "run", "--project", "/path/to/packages/core",
-     "notify", "send", "--json", json.dumps(payload), "--timeout", "300"],
+    ["notify", "send", "--json", json.dumps(payload), "--timeout", "300"],
     capture_output=True, text=True
 )
 ```
@@ -125,8 +121,7 @@ payload = {
 }
 
 subprocess.run(
-    ["uv", "run", "--project", "/path/to/packages/core",
-     "notify", "send", "--json", json.dumps(payload), "--no-wait"],
+    ["notify", "send", "--json", json.dumps(payload), "--no-wait"],
     capture_output=True
 )
 ```
@@ -159,6 +154,30 @@ subprocess.run(
 - **completion / step / info / warning**：使用 `--no-wait`，避免阻断 AI 工作流。
 - **紧急事件**：在 metadata 中设置 `"priority": "urgent"`。
 - **超时处理**：检查响应中的 `"timeout": true`，并进行重试或中止处理。
+
+## 问题诊断与首次配置
+
+**触发条件**：以下任一情况出现时，**必须**读取 `troubleshooting.md` 并主动引导用户修复，
+而不是直接报错或停止工作：
+
+| 触发信号 | 说明 |
+|----------|------|
+| 输出包含 `WARNING flux_notifier.router: no adapters configured` | 无任何适配器启用 |
+| 响应 JSON 中 `delivered: []` | 通知未送达任何终端 |
+| 响应 JSON 中 `failed` 列表非空 | 至少一个适配器发送失败 |
+| 用户说"没收到通知" / "通知没弹出来" | 用户侧感知到通知丢失 |
+| 执行时报 `FileNotFoundError`、`ValidationError` | 配置文件缺失或格式错误 |
+
+**处理规则**：
+
+1. 执行 `troubleshooting.md` 中的"快速诊断命令"，定位问题层级。
+2. 根据诊断结果，**主动询问用户**期望使用哪个通知终端（`troubleshooting.md` § 选择适配器）。
+3. 按用户选择，**逐步执行**对应适配器的配置流程，途中需要用户提供的信息（Webhook URL、
+   App Secret 等）要明确向用户索取，不要假设或跳过。
+4. 配置完成后，**必须执行验证命令**，确认 `delivered` 非空后再继续原任务。
+5. 若用户环境不在 macOS 上（如服务器、CI），跳过 macOS 选项，优先推荐飞书 Webhook 或邮件。
+
+> 附加文件路径（同目录）：`troubleshooting.md`
 
 ## JSON Schema 快速参考
 

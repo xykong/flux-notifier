@@ -25,15 +25,14 @@ notify send --title "需要你的决策" \
 
 | 终端 | 能力 | 状态 |
 |------|------|------|
-| **macOS 原生** | 系统通知 + 完整自定义悬浮窗（按钮/图片/跳转） | 🚧 开发中 |
-| **飞书机器人** | 消息卡片（按钮/图片/链接） | 🚧 开发中 |
-| **飞书应用** | 企业应用消息 | 🚧 开发中 |
-| **邮件** | HTML 富文本邮件 | 🚧 开发中 |
-| **微信公众号** | 模板消息 | 🚧 开发中 |
-| **企业微信** | 应用消息 | 🚧 开发中 |
-| **手机 Push** | APNs / FCM 推送 | 🚧 开发中 |
-| **Windows** | Toast 通知 | 🚧 开发中 |
-| **Linux** | libnotify / D-Bus | 🚧 开发中 |
+| **macOS 原生** | 系统通知 + 完整自定义悬浮窗（按钮/图片/跳转） | ✅ 已发布 |
+| **飞书机器人** | 消息卡片（按钮/图片/链接） | ✅ 已发布 |
+| **飞书应用** | 企业应用消息 | ✅ 已发布 |
+| **邮件** | HTML 富文本邮件 | ✅ 已发布 |
+| **企业微信** | 应用消息 | ✅ 已发布 |
+| **手机 Push** | APNs / FCM 推送 | ✅ 已发布 |
+| **Windows** | Toast 通知 | ✅ 已发布 |
+| **Linux** | libnotify / D-Bus | ✅ 已发布 |
 | **手表** | 通过手机 Push 透传 | 📋 规划中 |
 
 ## 架构
@@ -63,11 +62,14 @@ flux-notifier CLI (Python)
 ### 安装
 
 ```bash
-# macOS（推荐）
-brew install flux-notifier
+# Python CLI（推荐）
+pip install flux-notifier
+# 或
+uv tool install flux-notifier
 
-# 或通过 pipx
-pipx install flux-notifier
+# macOS App（可选，用于原生通知）
+brew tap xykong/tap
+brew install --cask flux-notifier
 ```
 
 ### 配置
